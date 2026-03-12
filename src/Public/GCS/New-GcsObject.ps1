@@ -49,7 +49,7 @@ function New-GcsObject {
 
             Write-Verbose "Upload successfull! Object-ID: $($response.id)"
             return $response
-        
+
         } catch {
 
             $errorDetails = $_.Exception.Message
