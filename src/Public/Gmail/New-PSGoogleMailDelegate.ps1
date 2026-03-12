@@ -18,7 +18,7 @@ function New-PSGoogleMailDelegate {
             delegateEmail=$Delegate.Address
             verificationStatus="accepted"
         } | ConvertTo-Json -Compress
-    
+
     if ($PSCmdlet.ShouldProcess($Delegate.Address, 'add new delegate')) {
 
         try {

@@ -39,7 +39,7 @@ function New-PSGoogleMailSendAs {
         $Body.Add('signature', $Signature)
     }
 
-    
+
     $Body = ConvertTo-Json -InputObject $Body -Compress
 
     Write-Verbose "Request Body $Body"

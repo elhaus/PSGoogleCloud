@@ -6,6 +6,7 @@ https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.settin
 
 #>
 function Set-PSGoogleMailSendAs {
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseSingularNouns', 'Set-PSGoogleMailSendAs')]
     [CmdletBinding(SupportsShouldProcess=$true)]
     param(
         [string]$UserId = "me",

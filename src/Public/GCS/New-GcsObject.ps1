@@ -3,7 +3,7 @@
 https://docs.cloud.google.com/storage/docs/json_api/v1/objects/insert
 #>
 function New-GcsObject {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess=$true)]
     param(
         [Parameter(Mandatory = $true)]
         [string]$Bucket,
@@ -34,22 +34,29 @@ function New-GcsObject {
     # read file content as Byte-Array
     $fileBytes = [System.IO.File]::ReadAllBytes($File)
 
-    try {
-        Write-Verbose "Starting upload from $SourceFilePath to gs://$Bucket/$ObjectName"
+    if ($PSCmdlet.ShouldProcess("gs://$Bucket/$ObjectName", 'upload GCS object')) {
 
-        $response = Invoke-GoogleRequest -Uri $uri `
-                                      -Method Post `
-                                      -Headers @{
-                                        "Content-Type"=$contentType
-                                      }  `
-                                      -Body $fileBytes `
-                                      -ContentType $contentType
+        try {
+            Write-Verbose "Starting upload from $SourceFilePath to gs://$Bucket/$ObjectName"
 
-        Write-Verbose "Upload successfull! Object-ID: $($response.id)"
-        return $response
+            $response = Invoke-GoogleRequest -Uri $uri `
+                                        -Method Post `
+                                        -Headers @{
+                                            "Content-Type"=$contentType
+                                        }  `
+                                        -Body $fileBytes `
+                                        -ContentType $contentType
+
+            Write-Verbose "Upload successfull! Object-ID: $($response.id)"
+            return $response
+        
+        } catch {
+
+            $errorDetails = $_.Exception.Message
+            Write-Error "Error uploading to GCS: $errorDetails"
+
+        }
+
     }
-    catch {
-        $errorDetails = $_.Exception.Message
-        Write-Error "Error uploading to GCS: $errorDetails"
-    }
+
 }
