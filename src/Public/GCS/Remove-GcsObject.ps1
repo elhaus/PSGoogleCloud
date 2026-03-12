@@ -5,10 +5,11 @@ https://docs.cloud.google.com/storage/docs/json_api/v1/objects/delete
 #>
 function Remove-GcsObject {
     [CmdletBinding(SupportsShouldProcess=$true,ConfirmImpact='High')]
+    [OutputType([bool])]
     param(
         [Parameter(Mandatory = $true)]
         [string]$Bucket,
-        
+
         [Parameter(Mandatory = $true)]
         [string]$ObjectName
     )
@@ -20,7 +21,7 @@ function Remove-GcsObject {
 
         try {
             Write-Verbose "Starting deletion of gs://$Bucket/$ObjectName"
-            
+
             Invoke-GoogleRequest -Uri $uri `
                                         -Method Delete | Out-Null
 
@@ -30,6 +31,7 @@ function Remove-GcsObject {
         catch {
             $errorDetails = $_.Exception.Message
             Write-Error "Error while deleting on GCS: $errorDetails"
+            return $false
         }
 
     }

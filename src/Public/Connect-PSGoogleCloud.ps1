@@ -1,13 +1,13 @@
 <#
 .SYNOPSIS
     Authenticate against the Google API
-    
+
 .DESCRIPTION
-    
+
 .EXAMPLE
-    
+
 .OUTPUTS
-    
+
 .NOTES
     Author: Jan Elhaus
 .LINK
@@ -15,6 +15,7 @@
 #>
 function Connect-PSGoogleCloud {
     [CmdletBinding()]
+    [OutputType([bool])]
     param(
         [Parameter(Mandatory,ParameterSetName='json_path')]
         [string]$Path,

@@ -1,16 +1,16 @@
 <#
 .SYNOPSIS
-    
+
 .DESCRIPTION
-    
+
 .EXAMPLE
-    
+
 .OUTPUTS
-    
+
 .NOTES
     Author: Jan Elhaus
 .LINK
-    
+
 #>
 
 function Invoke-GoogleRequest {

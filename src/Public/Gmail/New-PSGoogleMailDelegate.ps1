@@ -8,7 +8,7 @@ function New-PSGoogleMailDelegate {
     param(
         [Parameter(Mandatory = $true)]
         [mailaddress]$Delegate,
-        
+
         [string]$UserId = "me"
     )
 

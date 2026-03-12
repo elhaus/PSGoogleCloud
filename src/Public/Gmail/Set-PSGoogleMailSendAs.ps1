@@ -23,7 +23,7 @@ function Set-PSGoogleMailSendAs {
     )
 
     $Uri = "https://gmail.googleapis.com/gmail/v1/users/{0}/settings/sendAs/{1}" -f $UserId,$SendAsEmail.Address
-    
+
     $Body = @{}
 
     if($PSBoundParameters.ContainsKey('DisplayName')) {
@@ -39,7 +39,7 @@ function Set-PSGoogleMailSendAs {
         $Body.Add('signature', $Signature)
     }
 
-    
+
     $Body = ConvertTo-Json -InputObject $Body -Compress
 
     Write-Verbose "Request Body $Body"

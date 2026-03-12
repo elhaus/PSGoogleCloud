@@ -3,7 +3,7 @@
 https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.settings/updateVacation
 
 #>
-function Set-PSGoogleMailVacationSettings {
+function Set-PSGoogleMailVacationSetting {
     [CmdletBinding()]
     param(
         [string]$UserId = "me",
@@ -49,7 +49,7 @@ function Set-PSGoogleMailVacationSettings {
     if($EndTime) {
         $Body.Add('endTime', ([DateTimeOffset]$EndTime).ToUnixTimeMilliseconds())
     }
-    
+
     $Body = ConvertTo-Json -InputObject $Body -Compress
 
     Write-Verbose "Request Body $Body"
@@ -73,7 +73,7 @@ function Set-PSGoogleMailVacationSettings {
     }
     catch {
         $errorDetails = $_.Exception.Message
-        Write-Error "Error while setting vacation settings: $errorDetails"
+        Write-Error "Error while setting vacation setting: $errorDetails"
     }
 
 }

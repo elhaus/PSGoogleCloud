@@ -25,5 +25,4 @@ function Get-PSGoogleMailDelegate {
         Write-Error "Error while loading delegates: $errorDetails"
     }
 
-
 }

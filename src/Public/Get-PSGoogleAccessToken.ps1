@@ -3,15 +3,15 @@
     Retrieves the current authentication context for the Google API session.
 
 .DESCRIPTION
-    This function returns a hashtable containing the active OAuth2 Access Token, 
-    the authenticated user identity, the token's expiration timestamp, and 
-    the authorized scopes. It pulls these values from the internal module-scoped 
+    This function returns a hashtable containing the active OAuth2 Access Token,
+    the authenticated user identity, the token's expiration timestamp, and
+    the authorized scopes. It pulls these values from the internal module-scoped
     variables set during the 'Connect-PSGoogleCloud' process.
 
 .EXAMPLE
     PS> $session = Get-PSGoogleAccessToken
     PS> Write-Host "Token expires at: $($session.TokenExpiry)"
-    
+
     Retrieves the current session details and displays the expiration time.
 
 .OUTPUTS
@@ -26,6 +26,7 @@
 #>
 function Get-PSGoogleAccessToken {
     [CmdletBinding()]
+    [OutputType([hashtable])]
     param(
     )
 

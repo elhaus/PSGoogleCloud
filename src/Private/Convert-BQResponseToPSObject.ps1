@@ -16,14 +16,14 @@ function Convert-BQResponseToPSObject {
     # transform rows
     $results = foreach ($row in $RawResponse.rows) {
         $obj = [ordered]@{}
-        
+
         for ($i = 0; $i -lt $columns.Count; $i++) {
             # Google is nesting the values in the 'v' property
             $value = $row.f[$i].v
-            
+
             $obj[$columns[$i]] = $value
         }
-        
+
         [PSCustomObject]$obj
     }
 

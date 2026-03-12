@@ -8,7 +8,7 @@ function Remove-PSGoogleMailDelegate {
     param(
         [Parameter(Mandatory)]
         [mailaddress]$Delegate,
-        
+
         [string]$UserId = "me"
     )
 

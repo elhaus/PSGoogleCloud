@@ -36,7 +36,7 @@ function New-GcsObject {
 
     try {
         Write-Verbose "Starting upload from $SourceFilePath to gs://$Bucket/$ObjectName"
-        
+
         $response = Invoke-GoogleRequest -Uri $uri `
                                       -Method Post `
                                       -Headers @{

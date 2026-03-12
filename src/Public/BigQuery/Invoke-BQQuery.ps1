@@ -1,12 +1,12 @@
 <#
 .SYNOPSIS
-    
+
 .DESCRIPTION
-    
+
 .EXAMPLE
-    
+
 .OUTPUTS
-    
+
 .NOTES
     Author: Jan Elhaus
 .LINK
@@ -25,10 +25,7 @@ function Invoke-BQQuery {
         [Alias('MaxResults')]
         [int]$MaxRows = 1000,
 
-        [switch]$useLegacySql,
-
-        [ValidateRange(1,3600)]
-        [int]$SessionDuration = 3600
+        [switch]$useLegacySql
     )
 
     $RestParmeters = @{

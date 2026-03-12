@@ -25,7 +25,7 @@ function New-PSGoogleMailSendAs {
     )
 
     $Uri = "https://gmail.googleapis.com/gmail/v1/users/{0}/settings/sendAs" -f $UserId
-    
+
     $Body = @{
         sendAsEmail=$SendAsEmail.Address
         displayName=$DisplayName

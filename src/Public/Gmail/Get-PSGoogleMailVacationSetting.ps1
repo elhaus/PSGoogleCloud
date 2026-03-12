@@ -3,7 +3,7 @@
 https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.settings/getVacation
 
 #>
-function Get-PSGoogleMailVacationSettings {
+function Get-PSGoogleMailVacationSetting {
     [CmdletBinding()]
     param(
         [string]$UserId = "me"
@@ -29,7 +29,7 @@ function Get-PSGoogleMailVacationSettings {
     }
     catch {
         $errorDetails = $_.Exception.Message
-        Write-Error "Error while loading vacation settings: $errorDetails"
+        Write-Error "Error while loading vacation setting: $errorDetails"
     }
 
 

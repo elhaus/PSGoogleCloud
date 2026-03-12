@@ -9,6 +9,7 @@ GET https://gmail.googleapis.com/gmail/v1/users/{userId}/settings/sendAs/{sendAs
 
 #>
 function Get-PSGoogleMailSendAs {
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseSingularNouns', 'Get-PSGoogleMailSendAs')]
     [CmdletBinding()]
     param(
         [string]$UserId = "me",
@@ -17,7 +18,7 @@ function Get-PSGoogleMailSendAs {
     )
 
     $Uri = "https://gmail.googleapis.com/gmail/v1/users/{0}/settings/sendAs" -f $UserId
-    
+
     if($SendAsEmail) {
         $Uri = "{0}/{1}" -f $Uri,$SendAsEmail.Address
     }

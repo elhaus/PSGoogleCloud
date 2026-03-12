@@ -8,7 +8,7 @@ function Remove-PSGoogleMailSendAs {
     param(
         [Parameter(Mandatory)]
         [mailaddress]$SendAsEmail,
-        
+
         [string]$UserId = "me"
     )
 
@@ -30,6 +30,5 @@ function Remove-PSGoogleMailSendAs {
         }
 
     }
-
 
 }
