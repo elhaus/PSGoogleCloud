@@ -14,7 +14,6 @@ function Remove-GcsObject {
         [string]$ObjectName
     )
 
-    # API Endpunkt für 'media' Uploads (Beachte das /upload/ Präfix in der URL)
     $uri = "https://storage.googleapis.com/storage/v1/b/{0}/o/{1}" -f $Bucket,([uri]::EscapeDataString($ObjectName))
 
     if ($PSCmdlet.ShouldProcess("gs://$Bucket/$ObjectName", 'delete GCS object')) {

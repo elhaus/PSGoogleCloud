@@ -6,7 +6,7 @@ https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.settin
 
 #>
 function Set-PSGoogleMailSendAs {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess=$true)]
     param(
         [string]$UserId = "me",
 
@@ -56,18 +56,22 @@ function Set-PSGoogleMailSendAs {
             "verificationStatus"
         )
 
-    try {
+    if ($PSCmdlet.ShouldProcess($SendAsEmail.Address, 'change send as')) {
 
-        Invoke-GoogleRequest `
-                -Uri $Uri `
-                -Body $Body `
-                -Method Patch |
-            Select-Object $Attributes
+        try {
 
-    }
-    catch {
-        $errorDetails = $_.Exception.Message
-        Write-Error "Error while adding send as info: $errorDetails"
+            Invoke-GoogleRequest `
+                    -Uri $Uri `
+                    -Body $Body `
+                    -Method Patch |
+                Select-Object $Attributes
+
+        }
+        catch {
+            $errorDetails = $_.Exception.Message
+            Write-Error "Error while adding send as info: $errorDetails"
+        }
+
     }
 
 

@@ -5,6 +5,7 @@ https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.settin
 #>
 function Remove-PSGoogleMailDelegate {
     [CmdletBinding(SupportsShouldProcess=$true,ConfirmImpact='High')]
+    [OutputType([bool])]
     param(
         [Parameter(Mandatory)]
         [mailaddress]$Delegate,
@@ -27,6 +28,7 @@ function Remove-PSGoogleMailDelegate {
         catch {
             $errorDetails = $_.Exception.Message
             Write-Error "Error while removing delegate: $errorDetails"
+            return $false
         }
 
     }

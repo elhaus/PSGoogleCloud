@@ -2,11 +2,10 @@
 .LINK
 https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.settings.sendAs/create
 
-
-
 #>
 function New-PSGoogleMailSendAs {
-    [CmdletBinding()]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseSingularNouns', 'New-PSGoogleMailSendAs')]
+    [CmdletBinding(SupportsShouldProcess=$true)]
     param(
         [string]$UserId = "me",
 
@@ -57,19 +56,22 @@ function New-PSGoogleMailSendAs {
             "verificationStatus"
         )
 
-    try {
+    if ($PSCmdlet.ShouldProcess($SendAsEmail.Address, 'add send as address')) {
 
-        Invoke-GoogleRequest `
-                -Uri $Uri `
-                -Body $Body `
-                -Method Post |
-            Select-Object $Attributes
+        try {
+
+            Invoke-GoogleRequest `
+                    -Uri $Uri `
+                    -Body $Body `
+                    -Method Post |
+                Select-Object $Attributes
+
+        }
+        catch {
+            $errorDetails = $_.Exception.Message
+            Write-Error "Error while adding send as info: $errorDetails"
+        }
 
     }
-    catch {
-        $errorDetails = $_.Exception.Message
-        Write-Error "Error while adding send as info: $errorDetails"
-    }
-
 
 }

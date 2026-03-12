@@ -4,7 +4,9 @@ https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.settin
 
 #>
 function Remove-PSGoogleMailSendAs {
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseSingularNouns', 'Remove-PSGoogleMailSendAs')]
     [CmdletBinding(SupportsShouldProcess=$true,ConfirmImpact='High')]
+    [OutputType([bool])]
     param(
         [Parameter(Mandatory)]
         [mailaddress]$SendAsEmail,
@@ -27,6 +29,7 @@ function Remove-PSGoogleMailSendAs {
         catch {
             $errorDetails = $_.Exception.Message
             Write-Error "Error while removing send as: $errorDetails"
+            return $false
         }
 
     }

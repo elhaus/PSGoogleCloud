@@ -4,7 +4,7 @@ https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.settin
 
 #>
 function New-PSGoogleMailDelegate {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess=$true)]
     param(
         [Parameter(Mandatory = $true)]
         [mailaddress]$Delegate,
@@ -18,18 +18,21 @@ function New-PSGoogleMailDelegate {
             delegateEmail=$Delegate.Address
             verificationStatus="accepted"
         } | ConvertTo-Json -Compress
+    
+    if ($PSCmdlet.ShouldProcess($Delegate.Address, 'add new delegate')) {
 
-    try {
+        try {
 
-        Invoke-GoogleRequest `
-            -Uri $Uri `
-            -Method Post `
-            -Body $Body
+            Invoke-GoogleRequest `
+                -Uri $Uri `
+                -Method Post `
+                -Body $Body
 
-    }
-    catch {
-        $errorDetails = $_.Exception.Message
-        Write-Error "Error while adding delegate: $errorDetails"
+        } catch {
+            $errorDetails = $_.Exception.Message
+            Write-Error "Error while adding delegate: $errorDetails"
+        }
+
     }
 
 

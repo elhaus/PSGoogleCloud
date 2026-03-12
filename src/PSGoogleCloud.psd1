@@ -5,7 +5,7 @@
     # Version number of this module.
     ModuleVersion       = '0.1.0.0'
 
-    # Eindeutige ID für das Modul
+    # Unique ID of this module
     GUID                = '0461ff28-8d55-461e-8c97-7455fd0e99e1'
 
     # Author of this module
@@ -47,10 +47,10 @@
     VariablesToExport   = @()
     AliasesToExport     = @()
 
-    # Benötigte externe Module (falls du z.B. Google.Cloud.Tools nutzt)
+    # required external modules
     RequiredModules     = @()
 
-    # Private Daten (optional)
+    # Private data (optional)
     PrivateData = @{
         PSData = @{
             Tags       = @('GoogleCloud', 'GCS', 'BigQuery', 'API', 'REST', 'Google', 'GWS', 'Google', 'Workspace')

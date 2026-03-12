@@ -4,7 +4,7 @@ https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.settin
 
 #>
 function Set-PSGoogleMailVacationSetting {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess=$true)]
     param(
         [string]$UserId = "me",
 
@@ -54,26 +54,29 @@ function Set-PSGoogleMailVacationSetting {
 
     Write-Verbose "Request Body $Body"
 
-    try {
+    if ($PSCmdlet.ShouldProcess($UserId, 'change vacation setting')) {
 
-        Invoke-GoogleRequest `
-                -Uri $Uri `
-                -Body $Body `
-                -Method Put |
-            Select-Object `
-                enableAutoReply,
-                responseSubject,
-                responseBodyPlainText,
-                responseBodyHtml,
-                restrictToContacts,
-                restrictToDomain,
-                @{n="startTime";e={([System.DateTimeOffset]::FromUnixTimeMilliseconds($_.startTime)).DateTime}},
-                @{n="endTime";e={([System.DateTimeOffset]::FromUnixTimeMilliseconds($_.endTime)).DateTime}}
+        try {
 
-    }
-    catch {
-        $errorDetails = $_.Exception.Message
-        Write-Error "Error while setting vacation setting: $errorDetails"
+            Invoke-GoogleRequest `
+                    -Uri $Uri `
+                    -Body $Body `
+                    -Method Put |
+                Select-Object `
+                    enableAutoReply,
+                    responseSubject,
+                    responseBodyPlainText,
+                    responseBodyHtml,
+                    restrictToContacts,
+                    restrictToDomain,
+                    @{n="startTime";e={([System.DateTimeOffset]::FromUnixTimeMilliseconds($_.startTime)).DateTime}},
+                    @{n="endTime";e={([System.DateTimeOffset]::FromUnixTimeMilliseconds($_.endTime)).DateTime}}
+
+        } catch {
+            $errorDetails = $_.Exception.Message
+            Write-Error "Error while setting vacation setting: $errorDetails"
+        }
+
     }
 
 }
