@@ -11,6 +11,8 @@ function New-GcsObject {
         [Parameter(Mandatory = $true)]
         [string]$File,
 
+        [string]$contentType = "application/octet-stream",
+
         [string]$ObjectName
     )
 
@@ -23,10 +25,6 @@ function New-GcsObject {
     if (-not (Test-Path $File)) {
         throw "The file $File could not be found"
     }
-
-    # MIME-Type detection (default: application/octet-stream)
-    $contentType = [System.Web.MimeMapping]::GetMimeMapping($File)
-    if (-not $contentType) { $contentType = "application/octet-stream" }
 
     # API endpoint for 'media' uploads
     $uri = "https://storage.googleapis.com/upload/storage/v1/b/$($Bucket)/o?uploadType=media&name=$([uri]::EscapeDataString($ObjectName))"
