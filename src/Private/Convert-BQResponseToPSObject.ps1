@@ -11,7 +11,7 @@ function Convert-BQResponseToPSObject {
     }
 
     # extract column names
-    $columns = $RawResponse.schema.fields.name
+    $columns = $RawResponse.schema.fields
 
     # transform rows
     $results = foreach ($row in $RawResponse.rows) {
@@ -21,7 +21,11 @@ function Convert-BQResponseToPSObject {
             # Google is nesting the values in the 'v' property
             $value = $row.f[$i].v
 
-            $obj[$columns[$i]] = $value
+            if($columns[$i].type -eq "TIMESTAMP") {
+                $obj[$columns[$i].name] = ([System.DateTimeOffset]::FromUnixTimeSeconds($value)).DateTime
+            } else {
+                $obj[$columns[$i].name] = $value
+            }
         }
 
         [PSCustomObject]$obj
