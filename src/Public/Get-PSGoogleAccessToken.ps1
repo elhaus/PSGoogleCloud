@@ -15,7 +15,6 @@
     Retrieves the current session details and displays the expiration time.
 
 .OUTPUTS
-
     System.Collections.Hashtable
     A hashtable containing the keys: AccessToken, User, TokenExpiry, and Scope.
 

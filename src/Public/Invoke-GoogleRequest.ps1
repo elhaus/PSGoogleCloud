@@ -31,9 +31,9 @@ function Invoke-GoogleRequest {
             "Content-Type" = "application/json"
         },
 
-        [switch]$useLegacySql,
+        [String]$AccessToken,
 
-        [String]$AccessToken
+        [switch]$AsWebRequest
     )
 
     if(-not $Headers.Authorization -and $AccessToken) {
@@ -49,9 +49,14 @@ function Invoke-GoogleRequest {
 
     $PSBoundParameters.Remove('Headers') | Out-Null
     $PSBoundParameters.Remove('AccessToken') | Out-Null
+    $PSBoundParameters.Remove('AsWebRequest') | Out-Null
 
     Write-Verbose "Webrequest $($PSBoundParameters | ConvertTo-Json -Compress)"
 
-    Invoke-RestMethod @PSBoundParameters -Headers $Headers
+    if($AsWebRequest) {
+        Invoke-WebRequest @PSBoundParameters -Headers $Headers
+    } else {
+        Invoke-RestMethod @PSBoundParameters -Headers $Headers
+    }
 
 }
