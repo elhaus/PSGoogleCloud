@@ -51,9 +51,9 @@ function New-GcsObject {
     if(-not $Force.IsPresent) {
         $Uri += "&ifGenerationMatch=0"
     }
-        
+
     Write-Verbose "Upload URI: $($Uri)"
-    
+
     if ($PSCmdlet.ShouldProcess("gs://$Bucket/$ObjectName", 'upload GCS object')) {
 
         $Body = @{
@@ -74,7 +74,7 @@ function New-GcsObject {
 
         $SessionUri = [string] $InitResponse.Headers.Location
         Write-Verbose "Session Uri: $($SessionUri)"
-        
+
         $FileStream = [System.IO.File]::OpenRead($File)
 
         try{
@@ -105,7 +105,7 @@ function New-GcsObject {
                 }
                 $Buffer = New-Object byte[] $CurrentChunkSize
                 [void]$FileStream.Read($Buffer, 0, $CurrentChunkSize)
-                
+
                 $UploadHeaders = @{
                     "Content-Range" = $ContentRangeHeader
                 }
@@ -118,8 +118,8 @@ function New-GcsObject {
                     Start-Sleep -Seconds $SecoundsBetweenRetry
                     continue
                 }
-                
-                
+
+
                 switch($Upload.StatusCode) {
                     308 { # Resume Incomplete
                         $RangeHeader = [string] $Upload.Headers.Range
