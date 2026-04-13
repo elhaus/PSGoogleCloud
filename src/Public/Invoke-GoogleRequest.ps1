@@ -17,21 +17,21 @@ function Invoke-GoogleRequest {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory)]
-        [Uri]$Uri,
+        [uri]$Uri,
 
         [Parameter(Mandatory)]
         [ValidateSet('Delete','Get','Patch','Post','Put')]
-        [String]$Method,
+        [string]$Method,
 
-        [Object]$Body,
+        [object]$Body,
 
-        [String]$ContentType = "application/json",
+        [string]$ContentType = "application/json",
 
         [hashtable]$Headers = @{
             "Content-Type" = "application/json"
         },
 
-        [String]$AccessToken,
+        [string]$AccessToken,
 
         [switch]$AsWebRequest
     )
@@ -54,7 +54,7 @@ function Invoke-GoogleRequest {
     Write-Verbose "Webrequest $($PSBoundParameters | ConvertTo-Json -Compress)"
 
     if($AsWebRequest) {
-        Invoke-WebRequest @PSBoundParameters -Headers $Headers
+        Invoke-WebRequest @PSBoundParameters -Headers $Headers -UseBasicParsing
     } else {
         Invoke-RestMethod @PSBoundParameters -Headers $Headers
     }

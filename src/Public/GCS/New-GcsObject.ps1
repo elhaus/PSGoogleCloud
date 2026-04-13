@@ -21,9 +21,11 @@ function New-GcsObject {
 
         [switch]$Force,
 
-        [int]$NumberOfRetrys = 5,
+        [int]$MaxAttempts = 5,
 
-        [int]$SecoundsBetweenRetry = 5
+        [int]$SecoundsAfterAttempt = 5,
+
+        [datetime]$CustomTime
     )
 
     # If no object name is specified use the file name of the source file
@@ -56,9 +58,16 @@ function New-GcsObject {
 
     if ($PSCmdlet.ShouldProcess("gs://$Bucket/$ObjectName", 'upload GCS object')) {
 
-        $Body = @{
-            metadata=$Metadata
-        } | ConvertTo-Json -Compress
+        $Body = @{}
+
+        if($Metadata) {
+            $Body["metadata"] = $Metadata
+        }
+        if($CustomTime) {
+            $Body["customTime"] = Get-Date $CustomTime -Format "yyyy-MM-dd HH:mm:ss.fff zzz"
+        }
+
+        $Body = ConvertTo-Json -InputObject $Body -Compress
 
         Write-Verbose "Body: $($Body)"
 
@@ -83,7 +92,7 @@ function New-GcsObject {
 
             do {
 
-                if($NumberOfRetrys -le 0) {
+                if($MaxAttempts -lt 0) {
 
                     Write-Verbose "Try to gracefully cancel the upload"
                     $CloseSession = Invoke-WebRequest -Uri $SessionUri -Method Delete -Headers @{ "Content-Length" = 0 }
@@ -114,8 +123,8 @@ function New-GcsObject {
                     $Upload = Invoke-WebRequest -Uri $SessionUri -Method Put -Headers $UploadHeaders -Body $Buffer -SkipHttpErrorCheck
                 } catch {
                     Write-Warning $_.Exception.Message
-                    $NumberOfRetrys -= 1
-                    Start-Sleep -Seconds $SecoundsBetweenRetry
+                    $MaxAttempts -= 1
+                    Start-Sleep -Seconds $SecoundsAfterAttempt
                     continue
                 }
 

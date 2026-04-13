@@ -30,6 +30,8 @@
 
         'New-GcsObject',
         'Remove-GcsObject',
+        'Get-GcsObject',
+        'Read-GcsObject',
 
         'New-PSGoogleMailDelegate',
         'Remove-PSGoogleMailDelegate',

@@ -9,22 +9,14 @@ function Get-GcsObject {
         [string]$Bucket,
 
         [Parameter(Mandatory = $true)]
-        [string]$ObjectName,
-
-        [string]$OutFile
+        [string]$ObjectName
     )
 
     $Uri = "https://storage.googleapis.com/storage/v1/b/{0}/o/{1}" -f $Bucket, ([uri]::EscapeDataString($ObjectName))
 
-    if($PSBoundParameters.ContainsKey('OutFile')) {
-        $Uri += "?alt=media"
-    }
-
     Write-Verbose "Uri: $($Uri)"
 
-    $Response = Invoke-GoogleRequest -Uri $Uri `
-                                        -Method Get
-
-    $Response
+    Invoke-GoogleRequest -Uri $Uri `
+                        -Method Get
 
 }
